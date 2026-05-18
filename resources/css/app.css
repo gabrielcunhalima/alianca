@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Token Set ──────────────────────────────────── */
+/*
+ * Paleta: Complementar fria — azul-marinho (hue ~228°) + vermelho quente (#DA1212)
+ * Teoria: contraste complementar máximo, escala de luminosidade uniforme nos fundos,
+ *         bordas com tint azulado para harmonizar sem competir com o acento vermelho.
+ */
+:root {
+    --color-accent:         #DA1212;   /* vermelho âncora — quente, hue 0° */
+    --color-accent-dark:    #b80e0e;   /* vermelho hover — mesma hue, -15% luminosidade */
+    --color-accent-glow:    rgba(218,18,18,0.22);
+
+    /* Fundos — azul-marinho frio, hue 228°, saturação decrescente com luminosidade */
+    --color-bg:             #0b0e1a;   /* principal: hsl(228,38%,7.5%) */
+    --color-bg-alt:         #080b15;   /* alternado: um degrau abaixo */
+    --color-bg-card:        #121830;   /* card base: hsl(228,42%,13%) */
+    --color-bg-card-hover:  #1a2240;   /* card hover: hsl(228,42%,18%) */
+    --color-bg-nav:         rgba(11,14,26,0.96); /* navbar: bg principal com alpha */
+
+    /* Texto */
+    --color-text:           #EEEEEE;
+    --color-text-muted:     rgba(238,238,238,0.55);
+    --color-text-faint:     rgba(238,238,238,0.25);
+
+    /* Bordas — tint azulado harmoniza com fundo, evita cinza genérico */
+    --color-border:         rgba(80,110,200,0.14);
+    --color-border-hover:   rgba(80,110,200,0.30);
+    --color-border-accent:  rgba(218,18,18,0.45);
+
+    /* Glows */
+    --color-glow-red:       rgba(218,18,18,0.16);
+    --color-glow-blue:      rgba(20,40,120,0.5);
+
+    /* Gradients — elipse vermelha no canto, base azul profundo */
+    --grad-hero:   radial-gradient(ellipse at bottom right, rgba(218,18,18,0.22) 0%, transparent 50%),
+                   linear-gradient(135deg, #000931 0%, #0b0e1a 100%);
+    --grad-cta:    radial-gradient(ellipse at top right, rgba(218,18,18,0.22) 0%, transparent 50%),
+                   linear-gradient(135deg, #000931 0%, #080b15 100%);
+    --grad-card-h: linear-gradient(135deg, #121830 0%, #1a2240 80%, rgba(71,23,23,0.06) 100%);
+
+    --radius-btn:  4px;
+    --radius-card: 8px;
+}
+
+/* ─── Base ──────────────────────────────────────────────── */
+@layer base {
+    html { scroll-behavior: smooth; }
+
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        font-family: 'Reddit Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--color-bg); }
+    ::-webkit-scrollbar-thumb { background: var(--color-bg-card); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+    ::selection { background: rgba(218,18,18,0.25); }
+}
+
+/* ─── Marquee ───────────────────────────────────────────── */
+@keyframes marquee {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+.marquee-track {
+    animation: marquee 40s linear infinite;
+    display: flex;
+    width: max-content;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+/* ─── Reveal animations ─────────────────────────────────── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+.reveal   { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+.reveal-2 { opacity: 0; animation: fadeUp 0.7s ease forwards; animation-delay: 0.15s; }
+.reveal-3 { opacity: 0; animation: fadeUp 0.7s ease forwards; animation-delay: 0.3s; }
+.reveal-4 { opacity: 0; animation: fadeUp 0.7s ease forwards; animation-delay: 0.45s; }
+.reveal-fade { opacity: 0; animation: fadeIn 1s ease forwards; animation-delay: 0.2s; }
+
+/* ─── Display font utility ──────────────────────────────── */
+.font-display {
+    font-family: 'Reddit Sans', sans-serif;
+}
+
+/* ─── Glow utilities ────────────────────────────────────── */
+.glow-red {
+    box-shadow: 0 0 40px var(--color-glow-red);
+}
+.glow-red-sm {
+    box-shadow: 0 0 20px rgba(218,18,18,0.1);
+}
+
+/* ─── Gradient backgrounds ──────────────────────────────── */
+.bg-grad-hero { background: var(--grad-hero); }
+.bg-grad-cta  { background: var(--grad-cta); }
+
+/* ─── Card premium ──────────────────────────────────────── */
+.card-premium {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.card-premium:hover {
+    background: var(--grad-card-h);
+    border-color: var(--color-border-accent);
+    box-shadow: 0 8px 32px rgba(218,18,18,0.08);
+}
+
+/* ─── Button premium ────────────────────────────────────── */
+.btn-accent {
+    background-color: var(--color-accent);
+    color: #fff;
+    font-weight: 600;
+    padding: 14px 32px;
+    border-radius: var(--radius-btn);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-accent:hover {
+    background-color: #b80e0e;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(218,18,18,0.3);
+}
+
+.btn-outline-light {
+    border: 1px solid rgba(238,238,238,0.2);
+    color: #EEEEEE;
+    font-weight: 500;
+    padding: 14px 32px;
+    border-radius: var(--radius-btn);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+.btn-outline-light:hover {
+    border-color: rgba(238,238,238,0.45);
+    background: rgba(238,238,238,0.05);
+}
+
+/* ─── Section accent line ───────────────────────────────── */
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 2px;
+    background: var(--color-accent);
+    flex-shrink: 0;
+}
+
+/* ─── Stat item ─────────────────────────────────────────── */
+.stat-divider {
+    border-left: 1px solid var(--color-border);
+}
+
+/* ─── Tailwind Utilities ────────────────────────────────── */
+@layer utilities {
+    .bg-brand-dark  { background-color: var(--color-bg); }
+    .bg-brand-alt   { background-color: var(--color-bg-alt); }
+    .bg-brand-card  { background-color: var(--color-bg-card); }
+    .text-brand-red { color: var(--color-accent); }
+    .text-muted     { color: var(--color-text-muted); }
+    .text-faint     { color: var(--color-text-faint); }
+    .border-dim     { border-color: var(--color-border); }
+    .border-accent  { border-color: var(--color-border-accent); }
+}
